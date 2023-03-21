@@ -1,5 +1,7 @@
 const bcrypt=require("bcrypt");
 const User=require("../models/UserModel");
+
+const PostModel=require("../models/PostModel")
 const createUser=(req,res)=>{
     res.render("create_user");
 };
@@ -20,23 +22,25 @@ const showLoginPage=(req,res)=>{
 const loginUser=async(req,res)=>{
    try {
     const {email,password}=req.body;
-    const user=await User.findOne({email});
+    const user=await User.findOne({email:email});
     if(user){
         const result=await bcrypt.compare(password,user.password);
         if(result){
             req.session.user=user._id;
+            const posts=await PostModel.find({}).sort({createdAt:"desc"});
             // res.session.save(function(err){
             //     if(err)return next(err);
             //   
             // })
-            res.redirect("/");
+            // res.redirect("/");
+            res.render("index",{user:user,posts:posts});
         
         }else{
-            res.redirect("/auth/login");
+            res.redirect("/");
         }
     }
     else{
-        res.redirect("/auth/login");
+        res.redirect("/");
     }
    } catch (error) {
     console.log(error);
