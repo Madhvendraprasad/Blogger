@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Blogger </title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/public/css/profile.css">
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="/auth/home">Blogger</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts/new">Create Post</a></li>
+                    <!--  
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/register">Register</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/login">Login</a></li> -->
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Profile">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Logout">Logout</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1> Welcome <%= user.username %></h1>
+                        <span class="subheading">A Blog website by Mad-Man</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="body-student student-profile py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent text-center">
+                            <img class="profile_img" src="{{ u.image.url }}" alt="student dp">
+                            <h3><%= user.username %></h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0"><strong class="pr-1">Username:</strong><%= user.username %></p>
+                            <!-- <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
+              <p class="mb-0"><strong class="pr-1">Section:</strong>A</p> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>User Information: <a
+                                    href="{%url 'editprofile'%}"> <i class="pencil fa-solid fa-pencil"></i> </a> </h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Email:</th>
+                                    <td width="2%">:</td>
+                                    <td><%= user.email %></td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Phone Number:</th>
+                                    <td width="2%">:</td>
+                                    <td>default</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Followers</th>
+                                    <td width="2%">:</td>
+                                    <td>---</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Following</th>
+                                    <td width="2%">:</td>
+                                    <td>---</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- {% if w.profession %}
+                    <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Worker Information: <a
+                                    href="{% url 'editprofile'%}"> <i class="pencil fa-solid fa-pencil"></i> </a> </h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Profession:</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ w.profession}}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Worker Star:</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ w.star }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Biodata</th>
+                                    <td width="2%">:</td>
+                                    <td>{{ w.biodata }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %} -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+ <h1>Created Blogs</h1>
+ <%  userPost.forEach(userPost=>{  %>
+    <div class="post-preview">
+        <a href="/posts/<%=userPost.id%>">
+            <h2 class="post-title"><%=userPost.title %> </h2><h2>👍<%=userPost.likes.length%></h2>
+            <h3 class="post-subtitle"><%=userPost.description %></h3>
+        </a>
+        <p class="post-meta">
+            Posted 
+          on <%= userPost.createdAt %>;
+        </p>
+    </div>
+    <!-- Divider-->
+    <hr class="my-4">
+    <%  })   %>
+
+    <%- include("footer"); -%>

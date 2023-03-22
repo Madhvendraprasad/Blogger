@@ -53,6 +53,14 @@ const logoutUser=(req,res)=>{
     })
 };
 
+const profile = async (req,res)=>{
+    const id = req.session.user;
+    const userData = await User.findOne({_id:id});
+    const userPost=await PostModel.find({username:userData.username});
+    
+    res.render("profile",{user:userData,userPost:userPost});
+}
+
 
 module.exports={
     createUser,
@@ -60,4 +68,5 @@ module.exports={
     showLoginPage,
     loginUser,
     logoutUser,
+    profile,
 }

@@ -4,7 +4,7 @@ const UserModel=require("../models/UserModel");
 
 const PostlikeModel=require("../models/PostlikeModel");
 const showHomePage=async(req,res)=>{
-    const posts=await PostModel.find({}).sort({createdAt:"desc"});
+    const posts=await PostModel.find({}).sort({likes:"desc",createdAt:"desc"});
     const user=await UserModel.findById({_id:req.session.user});
     res.render("index",{posts:posts,user:user});
 }

@@ -48,13 +48,14 @@ const db=require("./db");
    
 //     next();
 // });
-const {createUser,storeUser,showLoginPage,loginUser, logoutUser,}=require("./controllers/UserController");
+const {createUser,storeUser,showLoginPage,loginUser, logoutUser,profile,}=require("./controllers/UserController");
 app.get("/auth/register",auth_if_logged_out,createUser);
 app.post("/auth/register",storeUser);
 app.get("/",auth_if_logged_out,showLoginPage);
 app.post("/auth/login",loginUser);
 app.get("/auth/Logout",auth_if_logged_in,logoutUser);
 app.get("/auth/home",auth_if_logged_in,showHomePage);
+app.get("/auth/profile",auth_if_logged_in,profile)
 
 app.get("/posts/new",auth_if_logged_in,createPost);  
 app.post("/posts/store", storePost);
