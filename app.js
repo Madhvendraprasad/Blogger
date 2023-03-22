@@ -60,7 +60,7 @@ app.get("/posts/new",auth_if_logged_in,createPost);
 app.post("/posts/store", storePost);
 app.get("/posts/:id",auth_if_logged_in, showPost);
 app.get("/post/edit/:id",auth_if_logged_in,geteditPost);
-app.post("post/edit/:id",auth_if_logged_in,editPost)
+app.put("/post/edit/:id",auth_if_logged_in,editPost)
 app.delete("/post/:id",auth_if_logged_in,deletePost);
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");

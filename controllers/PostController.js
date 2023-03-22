@@ -36,20 +36,26 @@ const showPost=async(req,res)=>{
 const geteditPost=async(req,res)=>{
     let post=await PostModel.findById(req.params.id);
     const user=await UserModel.findById({_id:req.session.user});
-    res.render("create_post",{post:post,user:user});
+    res.render("edit_post",{post:post,user:user});
 }
 const editPost=async(req,res)=>{
-    let post=await PostModel.findById(req.param.id);
-    const user=await UserModel.findById({_id:req.session.user});
     const {image}=req.files;
-    const username=req.body.username;
+    const user=await UserModel.findById({_id:req.session.user});
+    
+    
     await image.mv(path.resolve(__dirname,"..", "public/posts",image.name));
     await PostModel.create({
         ...req.body,
         image:'/posts/'+image.name,
         username:user.username,
     });
-    console.log(req.body);
+    await PostModel.findByIdAndDelete(req.params.id);
+   
+   
+    
+   
+     
+    // console.log(req.body);
     res.redirect("/auth/home");
 
 }
