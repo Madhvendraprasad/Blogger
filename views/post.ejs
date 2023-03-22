@@ -62,9 +62,22 @@
             <form id="deleteForm" action="/post/<%=post.id%>?_method=DELETE" method="post" class="d-inline">
                 <button id="btn-submit" type="submit"class="btn btn-danger">Delete</button>
          <%  }  %>
+         <% if((post.username)!==(user.username)){  %>
+          
+            <form id="likebutton" action="/post/like/<%=post.id%>"method="post">
+                <%=post.likes.length%>
+         <button type="button" class="btn btn-success
+         " data-toggle="button" aria-pressed="false" autocomplete="off"onclick="document.getElementById('likebutton').submit();">
+          <i class="fa fa-thumbs-up"></i>
+        </button>
+        </form> 
+         
+        
+       
+          <%  }  %>
         </div>
         
-      
+       
     </div>
 </div>
 

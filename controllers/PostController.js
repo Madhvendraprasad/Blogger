@@ -1,6 +1,8 @@
 const path=require("path");
 const PostModel=require("../models/PostModel")
 const UserModel=require("../models/UserModel");
+
+const PostlikeModel=require("../models/PostlikeModel");
 const showHomePage=async(req,res)=>{
     const posts=await PostModel.find({}).sort({createdAt:"desc"});
     const user=await UserModel.findById({_id:req.session.user});
@@ -63,6 +65,60 @@ const deletePost=async(req,res)=>{
     await PostModel.findByIdAndDelete(req.params.id);
     res.redirect("/auth/home");
 }
+const storelike=async(req,res)=>{
+  const curpost_id=req.params.id;
+  const curuser_id=req.session.user;
+    
+  PostModel.findOne({_id:curpost_id}).then(async(blog)=>{
+    if(!blog)
+    {
+        console.log("No blog found");
+    }
+    else{
+        PostlikeModel.findOne({
+            post_id:curpost_id,
+            user_id:curuser_id
+        }).then(async(Postlike)=>{
+           if(!Postlike)
+           {
+            let PostlikeDoc=new PostlikeModel({
+                post_id:curpost_id,
+                user_id:curuser_id
+            });
+          let likeData=await PostlikeDoc.save();
+          await PostModel.updateOne({
+            _id:curpost_id
+         },{
+            $push:{likes:likeData._id}
+         })
+          
+          res.redirect("/posts/"+req.params.id);
+        }
+        else{
+            await PostlikeModel.deleteOne({
+                _id:Postlike._id
+            });
+            await PostModel.updateOne({
+                _id:Postlike.post_id
+            },{
+                $pull:{likes:Postlike._id}
+            })
+            res.redirect("/posts/"+req.params.id);
+        }
+
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+  })
+    
+     
+    
+ 
+    
+}
+
 module.exports={
     showHomePage,
     createPost,
@@ -71,4 +127,7 @@ module.exports={
     geteditPost,
     editPost,
     deletePost,
+    storelike,
+   
+    
 }

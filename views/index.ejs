@@ -7,7 +7,7 @@
             <%  posts.forEach(posts=>{  %>
             <div class="post-preview">
                 <a href="/posts/<%=posts.id%>">
-                    <h2 class="post-title"><%=posts.title %></h2>
+                    <h2 class="post-title"><%=posts.title %> </h2><h2>👍<%=posts.likes.length%></h2>
                     <h3 class="post-subtitle"><%=posts.description %></h3>
                 </a>
                 <p class="post-meta">

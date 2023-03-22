@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const UserModel=require("./UserModel");
 const Schema=mongoose.Schema;
 const PostSchema=new Schema({
     title:{
@@ -24,7 +25,9 @@ const PostSchema=new Schema({
         type:Date,
         default:Date.now,
     },
-    
+likes:[{type:Schema.ObjectId,ref:"Postlike"}],
+
+   
 });
 const Post=mongoose.model("Post",PostSchema);
 module.exports=Post;

@@ -11,7 +11,7 @@ const MongoStore = require('connect-mongo');
 const User=require("./models/UserModel");
 
 const edge=require("edge-js");
-const {showHomePage,createPost, storePost, showPost,geteditPost,editPost,deletePost}=require("./controllers/PostController");
+const {showHomePage,createPost, storePost, showPost,geteditPost,editPost,deletePost,storelike}=require("./controllers/PostController");
 
 
 app.set('view engine', 'ejs');
@@ -48,7 +48,7 @@ const db=require("./db");
    
 //     next();
 // });
-const {createUser,storeUser,showLoginPage,loginUser, logoutUser}=require("./controllers/UserController");
+const {createUser,storeUser,showLoginPage,loginUser, logoutUser,}=require("./controllers/UserController");
 app.get("/auth/register",auth_if_logged_out,createUser);
 app.post("/auth/register",storeUser);
 app.get("/",auth_if_logged_out,showLoginPage);
@@ -62,6 +62,8 @@ app.get("/posts/:id",auth_if_logged_in, showPost);
 app.get("/post/edit/:id",auth_if_logged_in,geteditPost);
 app.put("/post/edit/:id",auth_if_logged_in,editPost)
 app.delete("/post/:id",auth_if_logged_in,deletePost);
+app.post("/post/like/:id",auth_if_logged_in,storelike);
+
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
 })
