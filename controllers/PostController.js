@@ -23,6 +23,7 @@ const storePost=async(req,res)=>{
             ...req.body,
             image:'/posts/'+image.name,
             username:user.username,
+            User_Id:user._id,
         });
         console.log(req.body);
         res.redirect("/auth/home");
@@ -50,6 +51,8 @@ const editPost=async(req,res)=>{
         ...req.body,
         image:'/posts/'+image.name,
         username:user.username,
+        User_Id:user._id,
+
     });
     await PostModel.findByIdAndDelete(req.params.id);
    

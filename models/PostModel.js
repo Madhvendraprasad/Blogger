@@ -26,6 +26,10 @@ const PostSchema=new Schema({
         default:Date.now,
     },
 likes:[{type:Schema.ObjectId,ref:"Postlike"}],
+User_Id:{
+    type:Schema.ObjectId,
+    ref:"User"
+},
 
    
 });

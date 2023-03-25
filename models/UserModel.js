@@ -23,6 +23,14 @@ const UserSchema=new Schema({
         type:Date,
         default:Date.now,
     },
+    followers:[{
+        type:Schema.ObjectId,
+        ref:"User"
+    }],
+    following:[{
+        type:Schema.ObjectId,
+        ref:"User"
+    }],
 
 });
 UserSchema.pre("save",function(next){

@@ -31,8 +31,7 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/home">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts/new">Create Post</a></li>
                         
-                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/profile/<%=user.id %>">Profile</a></li>
-                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/groups">Groups</a></li>
+
 
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Logout">Logout</a></li>
                     
@@ -53,37 +52,66 @@
                 </div>
             </div> 
         </header> 
-    <h1>hello <%=user.username %></h1>
-<div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-            <!-- Post preview-->
-            <%  posts.forEach(posts=>{  %>
-            <div class="post-preview">
-                <a href="/posts/<%=posts.id%>">
-                    <h2 class="post-title"><%=posts.title %> </h2><h2>👍<%=posts.likes.length%></h2>
-                    <h3 class="post-subtitle"><%=posts.description %></h3>
-                </a>
-                <p class="post-meta">
-                    Posted by
-                    <a href="/auth/profile/<%=posts.User_Id%>"><%= posts.username %></a>
-                    on <%= posts.createdAt %>;
-                </p>
+
+        <!-- <div class="col-md-6">
+            <h3>Create a Group</h3>
+            <form id="create-group-form" action ="/auth/groups/create" method="post">
+              <div class="form-group">
+                <label for="name-input">Name</label>
+                <input type="text" name="name"class="form-control" id="name-input">
+              </div>
+              <div class="form-group">
+                <label for="description-input"> Description</label>
+                <textarea class="form-control" name="description" id="description-input"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="type-input">Type</label>
+                <select class="form-control" id="type-input">
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                                                            <!-- without this multipart/form-data image can't be uplodaded -->
+        <form id="create-group-form" action ="/auth/groups/create" method="post">
+                    <div class="control-group">
+                      <div class="form-group floating-label-form-group controls">
+                        <label>Group Name</label>
+                        <input type="text" name="name" placeholder="name" class="form-control">
+                      </div>
+                    </div>
+                  <div class="control-group">
+                      <div class="form-group floating-label-form-group controls">
+                        <label>Description</label>
+                        <input type="text" name="description" placeholder="Description" required class="form-control">
+                      </div>
+                    </div>
+                    <div class="control-group">
+                    <div class="form-group floating-label-form-group">
+                        <label for="type-input">Type</label>
+                        <select class="form-control" id="type-input">
+                          <option value="public">Public</option>
+                          <option value="private">Private</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group my-4 text-center">
+                      <a href="/auth/groups/create" class="btn btn-secondary">Cancel</a>
+                     <input type="submit" value="Submit" class="btn btn-primary btn-xl">
+                    </div>
+                  </form>
             </div>
-            <!-- Divider-->
-            <hr class="my-4">
-            <%  })   %>
-            
-           
-            <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
         </div>
     </div>
-</div>
 
-
-
-
-
-
+      
 <%- include('footer'); -%>

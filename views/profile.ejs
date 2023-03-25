@@ -40,7 +40,7 @@
                     <!--  
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/register">Register</a></li>
                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/login">Login</a></li> -->
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Profile">Profile</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Profile/">Profile</a></li> -->
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/auth/Logout">Logout</a></li>
 
                 </ul>
@@ -53,7 +53,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
-                        <h1> Welcome <%= user.username %></h1>
+                        <h1> Welcome <%= userData.username %></h1>
                         <span class="subheading">A Blog website by Mad-Man</span>
                     </div>
                 </div>
@@ -67,28 +67,65 @@
                 <div class="col-lg-4">
                     <div class="card shadow-sm">
                         <div class="card-header bg-transparent text-center">
-                            <img class="profile_img" src="{{ u.image.url }}" alt="student dp">
-                            <h3><%= user.username %></h3>
+                            <!-- <img class="profile_img" src="" alt="student dp"> -->
+                            <h3><%= userData.username %></h3>
                         </div>
                         <div class="card-body">
-                            <p class="mb-0"><strong class="pr-1">Username:</strong><%= user.username %></p>
+                            <p class="mb-0"><strong class="pr-1">Username:</strong><%= userData.username %></p>
                             <!-- <p class="mb-0"><strong class="pr-1">Class:</strong>4</p>
               <p class="mb-0"><strong class="pr-1">Section:</strong>A</p> -->
                         </div>
                     </div>
+                        
+
+                    <!-- <form id="unfollowform" action="/auth/unfollow/<%=userData._id%>:?_method=PUT" method="post" >
+                        <button type="button" id="followBtn"onclick="document.getElementById('unfollowform').submit();">Following</button>
+                    </form> -->
+                    
+
+
+
+                    <% if( (userData._id)!=(cursesuser._id) ){ %>
+
+                        <!-- code block if userData._id is not equal to cursesuser._id -->
+                        
+                        <% } else { %>
+                        
+                        <!-- code block if userData._id is equal to cursesuser._id -->
+                        
+                        <% if(follower=="1"){ %>
+                        <form id="unfollowform" action="/auth/unfollow/<%=userData._id%>?_method=PUT" method="post">
+                          <button type="button" id="followBtn" onclick="document.getElementById('unfollowform').submit();">Following</button>
+                        </form>
+                        <% } %>
+                        
+                        <% if(follower=="0"){ %>
+                        <form id="followform" action="/auth/follow/<%=userData._id%>?_method=PUT" method="post">
+                          <button type="button" id="followbtn" onclick="document.getElementById('followform').submit();">Follow</button>
+                        </form>
+                        <% } %>
+                        
+                        <% } %>
+                        
+                   
+                   
+              
+                      
+                   
+                  
                 </div>
                 <div class="col-lg-8">
                     <div class="card shadow-sm">
                         <div class="card-header bg-transparent border-0">
                             <h3 class="mb-0"><i class="far fa-clone pr-1"></i>User Information: <a
-                                    href="{%url 'editprofile'%}"> <i class="pencil fa-solid fa-pencil"></i> </a> </h3>
+                                    href="#"> <i class="pencil fa-solid fa-pencil"></i> </a> </h3>
                         </div>
                         <div class="card-body pt-0">
                             <table class="table table-bordered">
                                 <tr>
                                     <th width="30%">Email:</th>
                                     <td width="2%">:</td>
-                                    <td><%= user.email %></td>
+                                    <td><%= userData.email %></td>
                                 </tr>
                                 <tr>
                                     <th width="30%">Phone Number:</th>
@@ -98,65 +135,93 @@
                                 <tr>
                                     <th width="30%">Followers</th>
                                     <td width="2%">:</td>
-                                    <td>---</td>
+                                    <td><%=userData.followers.length%></td>
                                 </tr>
                                 <tr>
                                     <th width="30%">Following</th>
                                     <td width="2%">:</td>
-                                    <td>---</td>
+                                    <td><%=userData.following.length%></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
-                    <!-- {% if w.profession %}
-                    <div style="height: 26px"></div>
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-transparent border-0">
-                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Worker Information: <a
-                                    href="{% url 'editprofile'%}"> <i class="pencil fa-solid fa-pencil"></i> </a> </h3>
-                        </div>
-                        <div class="card-body pt-0">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th width="30%">Profession:</th>
-                                    <td width="2%">:</td>
-                                    <td>{{ w.profession}}</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%">Worker Star:</th>
-                                    <td width="2%">:</td>
-                                    <td>{{ w.star }}</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%">Biodata</th>
-                                    <td width="2%">:</td>
-                                    <td>{{ w.biodata }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    {% endif %} -->
+                
 
-
+                    <%  if(userPosts){ %>
+                        
+                    <h1>Created Blogs</h1>
+                    <%  userPosts.forEach(userPosts=>{  %>
+                       <div class="post-preview">
+                           <a href="/posts/<%=userPosts._id%>">
+                               <h2 class="post-title"><%=userPosts.title %> </h2><h2>👍<%=userPosts.likes.length%></h2>
+                               <h3 class="post-subtitle"><%=userPosts.description %></h3>
+                           </a>
+                           <p class="post-meta">
+                               Posted 
+                             on <%= userPosts.createdAt %>;
+                           </p>
+                       </div>
+                       <!-- Divider-->
+                       <hr class="my-4">
+                       <%  })   %>
+                    <%  }   %>
 
                 </div>
             </div>
         </div>
     </div>
- <h1>Created Blogs</h1>
- <%  userPost.forEach(userPost=>{  %>
-    <div class="post-preview">
-        <a href="/posts/<%=userPost.id%>">
-            <h2 class="post-title"><%=userPost.title %> </h2><h2>👍<%=userPost.likes.length%></h2>
-            <h3 class="post-subtitle"><%=userPost.description %></h3>
-        </a>
-        <p class="post-meta">
-            Posted 
-          on <%= userPost.createdAt %>;
-        </p>
+ 
+      <!-- Footer-->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Mad-Man 2022</div>
+            </div>
+        </div>
     </div>
-    <!-- Divider-->
-    <hr class="my-4">
-    <%  })   %>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+<!-- <script>
+    const followBtn = document.getElementById("followBtn");
 
-    <%- include("footer"); -%>
+followBtn.addEventListener("click", () => {
+  if (followBtn.innerHTML==="follow") {
+    document.getElementById('followform').submit();
+
+  } else {
+    document.getElementById('unfollowform').submit();
+    // followBtn.innerHTML = "Follow";
+  }
+}); -->
+</body>
+</html>
