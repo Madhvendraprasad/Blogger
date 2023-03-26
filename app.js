@@ -11,7 +11,7 @@ const MongoStore = require('connect-mongo');
 const User=require("./models/UserModel");
 
 const edge=require("edge-js");
-const {showHomePage,createPost, storePost, showPost,geteditPost,editPost,deletePost,storelike}=require("./controllers/PostController");
+const {showHomePage,createPost, storePost, showPost,geteditPost,editPost,deletePost,storelike,storeComment}=require("./controllers/PostController");
 
 
 app.set('view engine', 'ejs');
@@ -76,6 +76,7 @@ app.get("/auth/groups/create",auth_if_logged_in,showcreateGroup);
 app.post("/auth/groups/create",auth_if_logged_in,createGroup);
 app.get("/auth/groups/:id",auth_if_logged_in,  showspecificgroup);
 
+app.post("/posts/add-comment",auth_if_logged_in,storeComment);
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
 })

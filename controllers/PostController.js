@@ -1,8 +1,11 @@
 const path=require("path");
 const PostModel=require("../models/PostModel")
 const UserModel=require("../models/UserModel");
+const { ObjectIdm, ObjectId}=require("mongodb");
+
 
 const PostlikeModel=require("../models/PostlikeModel");
+
 const showHomePage=async(req,res)=>{
     const posts=await PostModel.find({}).sort({likes:"desc",createdAt:"desc"});
     const user=await UserModel.findById({_id:req.session.user});
@@ -115,11 +118,25 @@ const storelike=async(req,res)=>{
     }
 
   })
-    
-     
-    
- 
-    
+}
+
+const storeComment=async(req,res)=>{
+   try {
+        var post_id=req.body.post_id;
+        var username=req.body.name;
+        var comment=req.body.comment;
+        var email=req.body.email;
+        var comment_id=new ObjectId();
+        await PostModel.findByIdAndUpdate({_id:post_id},{
+            $push:{
+                "comments":{_id:comment_id,username:username,email:email,comment:comment}
+            }
+         })
+
+        res.status(200).send({success:true,msg:'comment Added:'});
+   } catch (error) {
+    res.status(200).send({success:false,msg:error.message});
+   }
 }
 
 module.exports={
@@ -131,6 +148,7 @@ module.exports={
     editPost,
     deletePost,
     storelike,
+    storeComment,
    
     
 }

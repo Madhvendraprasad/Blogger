@@ -30,6 +30,10 @@ User_Id:{
     type:Schema.ObjectId,
     ref:"User"
 },
+comments:{
+    type:Object,
+    default:{}
+}
 
    
 });

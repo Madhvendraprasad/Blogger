@@ -13,6 +13,8 @@
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
         <link href="/css/styles.css" rel="stylesheet" />
     </head>
     <body>
@@ -71,6 +73,62 @@
           <i class="fa fa-thumbs-up"></i>
         </button>
         </form> 
+
+
+        <!-- comment section  -->
+
+<div class="container mt-3">
+    <div class="row card bg-light">
+      <div class="col-md-8 card-body">
+        <h2>Leave a comment</h2>
+        <form class="mb-4"id="comment-form">
+          <div class="form-group" >
+            <input type="hidden" name="post_id" value="<%=post._id%>" id="">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" required placeholder="Enter your name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="comment">Comment</label>
+            <textarea class="form-control mb-2" name="comment" required  id="comment" rows="3"></textarea>
+          </div>
+ 
+          <input type="submit" class="btn btn-primary">
+        </form>
+         <!-- comment with nested comments -->
+         <% if(post.comments.length>0){%>
+           <%  post.comments=post.comments.reverse(); %>
+       
+        <%post.comments.forEach(function(comment){ %>
+
+            <div class="d-flex">
+                <div class="flex-shrink-0 mt-3">
+                    <img style="max-width:10%;" class="rounded-circle" src="https://img.icons8.com/office/256/person-male-skin-type-4.png" alt="">
+                     
+                    <div class="fw-bold">
+                       <%=comment.username%>
+    
+                    </div>
+                    <%=comment.comment%>
+
+                   
+    
+                </div>
+             </div>
+        <%  }) %>
+          
+        <%}%>
+
+
+
+
+        <p class="com-status"style="color:green;"></p>
+      </div>
+    </div>
+  </div>
          
         
        
@@ -81,6 +139,69 @@
     </div>
 </div>
 
-<!-- comment section  -->
 
-<%- include('footer'); -%>
+  
+    
+   <script>
+    $(document).ready(function(){
+        $('#comment-form').submit(function(event){
+            event.preventDefault();
+            var formData=$(this).serialize();
+            $.ajax({
+                url:"/posts/add-comment",
+                type:"POST",
+                data:formData,
+                success:function(data){
+                 $('.com-status').text(data.msg);
+                 setTimeout(function(){
+                    $('.com-status').text('');
+                 },5000);
+                }
+            })
+        });
+
+   
+
+
+    });
+   </script>
+
+  <!-- Footer-->
+  <footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Mad-Man 2022</div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
